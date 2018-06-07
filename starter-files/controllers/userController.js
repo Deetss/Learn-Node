@@ -1,14 +1,14 @@
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
-const promisify = require('es6-promisify')
+const promisify = require('es6-promisify');
 
 exports.loginForm = (req, res) => {
   res.render('login', {title: 'Login'});
-}
+};
 
 exports.registerForm = (req, res) => {
   res.render('register', {title: 'Register'});
-}
+};
 
 exports.validateRegister = (req, res, next) => {
   req.sanitizeBody('name');
@@ -25,22 +25,22 @@ exports.validateRegister = (req, res, next) => {
 
   const errors = req.validationErrors();
   if (errors) {
-    req.flash('error', errors.map( err => err.msg))
+    req.flash('error', errors.map( err => err.msg));
     res.render('register', { title: 'Register', body: req.body, flashes: req.flash() });
     return;
   }
-  next();
+  next(); // pass to authController.login
 };
 
 exports.register = async (req, res, next) => {
-  const user = new User({email: req.body.email, name: req.body.name })
+  const user = new User({email: req.body.email, name: req.body.name });
   const register = promisify(User.register, User);
   await register(user, req.body.password);
   next();
-}
+};
 
 exports.account = (req,res) => {
-  res.render('account', { title: 'Edit your account'})
+  res.render('account', { title: 'Edit your account'});
 };
 
 exports.updateAccount = async (req, res) => {

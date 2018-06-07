@@ -496,6 +496,9 @@ p {
   font-size: 10rem;
   text-align: center; }
 
+.sub--text {
+  font-size: 10px; }
+
 input, textarea {
   width: 100%;
   padding: 10px;
